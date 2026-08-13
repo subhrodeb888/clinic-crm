@@ -13,15 +13,14 @@
 # testing
 /coverage
 
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+
 # next.js
 /.next/
 /out/
-
-# OpenNext
-.open-next
-
-# development secrets
-.dev.vars
 
 # production
 /build
@@ -36,7 +35,7 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files
 .env*
 !.env.example
 

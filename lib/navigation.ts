@@ -56,10 +56,5 @@ export const sidebarLinks: SidebarLink[] = [
     icon: "bell",
     roles: ["admin", "receptionist"],
   },
-  {
-    label: "Settings",
-    href: "/settings",
-    icon: "settings",
-    roles: ["admin"],
-  },
+  
 ];

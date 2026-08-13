@@ -31,9 +31,7 @@ export default auth((req) => {
   // dashboard, everyone else can stay and sign in.
   if (pathname === LOGIN_PATH) {
     if (isAuthenticated) {
-      return NextResponse.redirect(
-        new URL(DEFAULT_AUTHENTICATED_PATH, origin),
-      );
+      return NextResponse.redirect(new URL(DEFAULT_AUTHENTICATED_PATH, origin));
     }
 
     return NextResponse.next();

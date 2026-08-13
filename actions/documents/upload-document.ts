@@ -98,6 +98,10 @@ export async function uploadDocument(
     // Log unexpected errors and return a generic failure response.
     console.error("Failed to upload document:", error);
 
-    return { success: false, error: "Failed to upload document" };
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : "Failed to upload document",
+    };
   }
 }

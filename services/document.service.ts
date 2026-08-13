@@ -1,117 +1,9 @@
-// import { randomUUID } from "node:crypto";
-
-// import {
-//   documentRepository,
-//   type DocumentType,
-// } from "@/repositories/document.repository";
-// import { documentProcessingService } from "@/services/document-processing.service";
-// import { storageService } from "@/services/storage.service";
-
-// const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024; // 20 MB
-// const ALLOWED_MIME_TYPE = "application/pdf";
-
-// export class DocumentUploadError extends Error {
-//   constructor(message: string) {
-//     super(message);
-//     this.name = "DocumentUploadError";
-//   }
-// }
-
-// export class DocumentService {
-//   async upload(input: {
-//     patientId: string;
-//     uploadedBy: string;
-//     documentType: DocumentType;
-//     file: File;
-//   }) {
-//     this.validateFile(input.file);
-
-//     const filename = `${randomUUID()}.pdf`;
-//     const storagePath = `patients/${input.patientId}/documents/${filename}`;
-
-//     const buffer = Buffer.from(await input.file.arrayBuffer());
-
-//     await storageService.uploadFile({
-//       key: storagePath,
-//       body: buffer,
-//       contentType: ALLOWED_MIME_TYPE,
-//     });
-
-//     const document = await documentRepository
-//       .create({
-//         patientId: input.patientId,
-//         uploadedBy: input.uploadedBy,
-//         filename,
-//         originalFilename: input.file.name,
-//         mimeType: input.file.type,
-//         fileSize: input.file.size,
-//         storagePath,
-//         documentType: input.documentType,
-//       })
-//       .catch(async (error) => {
-//         // Compensation: the DB insert failed, so remove the orphaned R2 object.
-//         try {
-//           await storageService.deleteFile(storagePath);
-//         } catch (cleanupError) {
-//           console.error(
-//             `Failed to clean up orphaned R2 object: ${storagePath}`,
-//             cleanupError,
-//           );
-//         }
-
-//         throw error;
-//       });
-
-//     // The document row exists once the insert succeeds. Trigger processing
-//     // only after the document is persisted in the database.
-//     await documentProcessingService.process(document.id);
-
-//     return document;
-//   }
-
-//   async getByPatient(patientId: string) {
-//     return documentRepository.getByPatientWithUploaderName(patientId);
-//   }
-
-//   async delete(id: string) {
-//     const deleted = await documentRepository.delete(id);
-
-//     if (!deleted) {
-//       throw new Error("Document not found");
-//     }
-
-//     // Remove the object from R2. If this fails the DB is already consistent
-//     // (the row is gone); the orphaned object is logged for manual cleanup.
-//     try {
-//       await storageService.deleteFile(deleted.storagePath);
-//     } catch (error) {
-//       console.error(
-//         `Failed to delete R2 object: ${deleted.storagePath}`,
-//         error,
-//       );
-//     }
-//   }
-
-//   private validateFile(file: File) {
-//     if (file.type !== ALLOWED_MIME_TYPE) {
-//       throw new DocumentUploadError("Only PDF files are allowed");
-//     }
-
-//     if (file.size > MAX_FILE_SIZE_BYTES) {
-//       throw new DocumentUploadError("File must be 20 MB or smaller");
-//     }
-//   }
-// }
-
-// export const documentService = new DocumentService();
-
 import { randomUUID } from "node:crypto";
 
 import {
   documentRepository,
   type DocumentType,
 } from "@/repositories/document.repository";
-import { documentProcessingService } from "@/services/document-processing.service";
 import { storageService } from "@/services/storage.service";
 
 const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024; // 20 MB
@@ -178,6 +70,9 @@ export class DocumentService {
 
     // The document row exists once the insert succeeds. Trigger processing
     // only after the document is persisted in the database.
+    const { documentProcessingService } =
+      await import("@/services/document-processing.service");
+
     await documentProcessingService.process(document.id);
 
     return document;

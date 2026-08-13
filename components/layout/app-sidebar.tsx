@@ -8,7 +8,6 @@ import {
   CreditCard,
   BarChart3,
   Bell,
-  Settings,
   ClipboardList,
   LogOut,
 } from "lucide-react";
@@ -32,7 +31,7 @@ const iconMap = {
   "credit-card": CreditCard,
   "bar-chart": BarChart3,
   bell: Bell,
-  settings: Settings,
+
   queues: ClipboardList,
 };
 
