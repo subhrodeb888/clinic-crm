@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Patient Service Manager - Simplified Map</title>
+    <style>
+      :root {
+        --bg-color: #090d16;
+        --card-bg: #111827;
+        --border-color: #1f2937;
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+
+        --accent-guard: #ef4444; /* Security/Validation */
+        --accent-vault: #3b82f6; /* Repository/Database */
+        --accent-scribe: #10b981; /* Activity Logger */
+        --accent-makeup: #f59e0b; /* UI Mapper */
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        padding: 2rem;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .service-container {
+        max-width: 1100px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      .header-section {
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 1.5rem;
+      }
+
+      .header-section h1 {
+        margin: 0 0 0.5rem 0;
+        font-size: 2rem;
+        color: #fff;
+      }
+
+      .header-section p {
+        color: var(--text-muted);
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      /* The Assembly Line Team Grid */
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+      }
+
+      .team-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.25rem;
+        position: relative;
+      }
+
+      .team-title {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .team-desc {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        line-height: 1.4;
+      }
+
+      /* Operations / Methods Section */
+      .operations-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        border-left: 4px solid #fff;
+        padding-left: 0.75rem;
+        margin: 1rem 0 0 0;
+      }
+
+      .op-row {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .op-meta h3 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.2rem;
+        color: #fff;
+        font-family: monospace;
+      }
+
+      .op-meta p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      /* Workflow Pipeline Visual - Wrapping enabled, scrollbars killed */
+      .pipeline {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .step {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px dashed var(--border-color);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        flex: 1 1 140px;
+        max-width: 200px;
+        text-align: center;
+      }
+
+      .step.active {
+        background: rgba(255, 255, 255, 0.07);
+        border-style: solid;
+      }
+
+      .arrow {
+        color: var(--text-muted);
+        font-weight: bold;
+        user-select: none;
+      }
+
+      /* Border Accents */
+      .border-guard {
+        border-top: 4px solid var(--accent-guard);
+      }
+      .border-vault {
+        border-top: 4px solid var(--accent-vault);
+      }
+      .border-scribe {
+        border-top: 4px solid var(--accent-scribe);
+      }
+      .border-makeup {
+        border-top: 4px solid var(--accent-makeup);
+      }
+
+      .text-guard {
+        color: var(--accent-guard);
+      }
+      .text-vault {
+        color: var(--accent-vault);
+      }
+      .text-scribe {
+        color: var(--accent-scribe);
+      }
+      .text-makeup {
+        color: var(--accent-makeup);
+      }
+
+      @media (max-width: 900px) {
+        .team-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .op-row {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        .arrow {
+          transform: rotate(90deg);
+          margin: 0.25rem 0;
+        }
+        .pipeline {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .step {
+          max-width: none;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .team-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="service-container">
+      <div class="header-section">
+        <h1>The Patient Service Manager <code>(PatientService)</code></h1>
+        <p>
+          Think of this file as the <strong>Office Manager</strong>. It doesn't
+          store data itself, and it doesn't build the website layout. Instead,
+          it directs traffic, checks paperwork, coordinates tasks, and ensures
+          rules are followed.
+        </p>
+      </div>
+
+      <div>
+        <div class="section-title">The Manager's Trusty Crew</div>
+        <p
+          style="
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+          "
+        >
+          To get anything done, the Manager passes the work down an assembly
+          line of 4 specialists:
+        </p>
+
+        <div class="team-grid">
+          <div class="team-card border-guard">
+            <div class="team-title text-guard">1. The Security Guard</div>
+            <div class="team-desc">
+              <strong>Schemas (Zod):</strong> Double-checks all incoming user
+              forms. If a phone number is missing or an email is broken, it
+              blocks the entry immediately.
+            </div>
+          </div>
+          <div class="team-card border-vault">
+            <div class="team-title text-vault">2. The Filing Clerk</div>
+            <div class="team-desc">
+              <strong>Repository:</strong> The only one allowed to talk directly
+              to the giant database filing cabinet to save, update, or destroy
+              patient files.
+            </div>
+          </div>
+          <div class="team-card border-scribe">
+            <div class="team-title text-scribe">3. The Scribe</div>
+            <div class="team-desc">
+              <strong>Activity Service:</strong> Takes silent notes in a history
+              ledger whenever a change happens (e.g.,
+              <em>"John Doe was created"</em>) for audit safety.
+            </div>
+          </div>
+          <div class="team-card border-makeup">
+            <div class="team-title text-makeup">4. The Makeup Artist</div>
+            <div class="team-desc">
+              <strong>Mapper:</strong> Cleans up dirty backend database
+              profiles, polishing them into clean data formats ready for the
+              website UI to display flawlessly.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="operations-section">
+        <div class="section-title">The Manager's Core Responsibilities</div>
+
+        <div class="op-row">
+          <div class="op-meta">
+            <h3>createPatient</h3>
+            <p>Admits a brand new patient into the system.</p>
+          </div>
+          <div class="pipeline">
+            <div
+              class="step active text-guard"
+              style="border-color: var(--accent-guard)"
+            >
+              Verify Form Rules
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-vault"
+              style="border-color: var(--accent-vault)"
+            >
+              Save to Cabinet
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-scribe"
+              style="border-color: var(--accent-scribe)"
+            >
+              Log Event History
+            </div>
+            <div class="arrow">➔</div>
+            <div class="step">Return Saved Profile</div>
+          </div>
+        </div>
+
+        <div class="op-row">
+          <div class="op-meta">
+            <h3>updatePatient</h3>
+            <p>Modifies an existing record safely.</p>
+          </div>
+          <div class="pipeline">
+            <div
+              class="step active text-vault"
+              style="border-color: var(--accent-vault)"
+            >
+              Find Existing?
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-guard"
+              style="border-color: var(--accent-guard)"
+            >
+              Check New Edits
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-vault"
+              style="border-color: var(--accent-vault)"
+            >
+              Overwrite File
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-scribe"
+              style="border-color: var(--accent-scribe)"
+            >
+              Log Changes
+            </div>
+          </div>
+        </div>
+
+        <div class="op-row">
+          <div class="op-meta">
+            <h3>deletePatient</h3>
+            <p>Removes a record completely.</p>
+          </div>
+          <div class="pipeline">
+            <div
+              class="step active text-vault"
+              style="border-color: var(--accent-vault)"
+            >
+              Find Existing?
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-vault"
+              style="border-color: var(--accent-vault)"
+            >
+              Shred Record
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-scribe"
+              style="border-color: var(--accent-scribe)"
+            >
+              Log Shredding
+            </div>
+          </div>
+        </div>
+
+        <div class="op-row">
+          <div class="op-meta">
+            <h3>getPatient</h3>
+            <p>Fetches and cleans a single record for viewing.</p>
+          </div>
+          <div class="pipeline">
+            <div
+              class="step active text-vault"
+              style="border-color: var(--accent-vault)"
+            >
+              Pull File by ID
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-makeup"
+              style="border-color: var(--accent-makeup)"
+            >
+              Format For UI Screen
+            </div>
+            <div class="arrow">➔</div>
+            <div class="step">Deliver Clean Record</div>
+          </div>
+        </div>
+
+        <div class="op-row">
+          <div class="op-meta">
+            <h3>assignDoctor</h3>
+            <p>Links a doctor's ID badge to a patient's file.</p>
+          </div>
+          <div class="pipeline">
+            <div
+              class="step active text-vault"
+              style="border-color: var(--accent-vault)"
+            >
+              Find Patient
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-vault"
+              style="border-color: var(--accent-vault)"
+            >
+              Attach Doctor ID
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-scribe"
+              style="border-color: var(--accent-scribe)"
+            >
+              Log Assignment
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

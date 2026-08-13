@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClinicOS Architecture Map</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 40px;
+        font-family: Inter, sans-serif;
+        background: #f8fafc;
+      }
+
+      h1 {
+        margin-bottom: 40px;
+      }
+
+      .module {
+        margin-bottom: 80px;
+      }
+
+      .module h2 {
+        margin-bottom: 20px;
+      }
+
+      .flow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .box {
+        min-width: 180px;
+        padding: 16px;
+        border-radius: 12px;
+        background: white;
+        border: 1px solid #dbe2ea;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .arrow {
+        font-size: 28px;
+        color: #64748b;
+      }
+
+      .section {
+        margin-top: 30px;
+      }
+
+      .label {
+        font-size: 12px;
+        color: #64748b;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>ClinicOS Mental Model</h1>
+
+    <!-- PATIENTS -->
+
+    <div class="module">
+      <h2>Patients Module</h2>
+
+      <div class="section">
+        <div class="label">Load Patients</div>
+
+        <div class="flow">
+          <div class="box">app/patients/page.tsx</div>
+          <div class="arrow">→</div>
+
+          <div class="box">getPatients()</div>
+          <div class="arrow">→</div>
+
+          <div class="box">PatientService</div>
+          <div class="arrow">→</div>
+
+          <div class="box">PatientRepository</div>
+          <div class="arrow">→</div>
+
+          <div class="box">patients table</div>
+          <div class="arrow">→</div>
+
+          <div class="box">mapPatientToUI()</div>
+          <div class="arrow">→</div>
+
+          <div class="box">PatientsTable</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Create Patient</div>
+
+        <div class="flow">
+          <div class="box">AddPatientDrawer</div>
+          <div class="arrow">→</div>
+
+          <div class="box">PatientForm</div>
+          <div class="arrow">→</div>
+
+          <div class="box">createPatient()</div>
+          <div class="arrow">→</div>
+
+          <div class="box">PatientService</div>
+          <div class="arrow">→</div>
+
+          <div class="box">PatientRepository</div>
+          <div class="arrow">→</div>
+
+          <div class="box">patients table</div>
+          <div class="arrow">→</div>
+
+          <div class="box">revalidatePath()</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPOINTMENTS -->
+
+    <div class="module">
+      <h2>Appointments Module</h2>
+
+      <div class="section">
+        <div class="label">Load Appointments</div>
+
+        <div class="flow">
+          <div class="box">app/appointments/page.tsx</div>
+          <div class="arrow">→</div>
+
+          <div class="box">getAppointments()</div>
+          <div class="arrow">→</div>
+
+          <div class="box">AppointmentService</div>
+          <div class="arrow">→</div>
+
+          <div class="box">AppointmentRepository</div>
+          <div class="arrow">→</div>
+
+          <div class="box">appointments table</div>
+          <div class="arrow">→</div>
+
+          <div class="box">mapAppointmentToUI()</div>
+          <div class="arrow">→</div>
+
+          <div class="box">AppointmentsTable</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Create Appointment</div>
+
+        <div class="flow">
+          <div class="box">CreateAppointmentButton</div>
+          <div class="arrow">→</div>
+
+          <div class="box">CreateAppointmentModal</div>
+          <div class="arrow">→</div>
+
+          <div class="box">AppointmentForm</div>
+          <div class="arrow">→</div>
+
+          <div class="box">createAppointment()</div>
+          <div class="arrow">→</div>
+
+          <div class="box">AppointmentService</div>
+          <div class="arrow">→</div>
+
+          <div class="box">AppointmentRepository</div>
+          <div class="arrow">→</div>
+
+          <div class="box">appointments table</div>
+          <div class="arrow">→</div>
+
+          <div class="box">revalidatePath()</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Edit Appointment</div>
+
+        <div class="flow">
+          <div class="box">Pencil Icon</div>
+          <div class="arrow">→</div>
+
+          <div class="box">EditAppointmentModal</div>
+          <div class="arrow">→</div>
+
+          <div class="box">AppointmentForm</div>
+          <div class="arrow">→</div>
+
+          <div class="box">updateAppointment()</div>
+          <div class="arrow">→</div>
+
+          <div class="box">AppointmentService</div>
+          <div class="arrow">→</div>
+
+          <div class="box">AppointmentRepository</div>
+          <div class="arrow">→</div>
+
+          <div class="box">appointments table</div>
+          <div class="arrow">→</div>
+
+          <div class="box">revalidatePath()</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Delete Appointment</div>
+
+        <div class="flow">
+          <div class="box">Trash Icon</div>
+          <div class="arrow">→</div>
+
+          <div class="box">deleteAppointment()</div>
+          <div class="arrow">→</div>
+
+          <div class="box">AppointmentService</div>
+          <div class="arrow">→</div>
+
+          <div class="box">AppointmentRepository</div>
+          <div class="arrow">→</div>
+
+          <div class="box">appointments table</div>
+          <div class="arrow">→</div>
+
+          <div class="box">revalidatePath()</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

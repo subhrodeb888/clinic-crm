@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How a Web Page Works - Simplified Map</title>
+    <style>
+      :root {
+        --bg-color: #0b0f19;
+        --card-bg: #161e2e;
+        --border-color: #243249;
+        --text-main: #f3f4f6;
+        --text-muted: #9ca3af;
+
+        --accent-brain: #3b82f6;
+        --accent-frame: #10b981;
+        --accent-visual: #8b5cf6;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        padding: 2rem;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .mindmap-container {
+        max-width: 1000px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      /* Node Styles */
+      .node {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.25rem;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease;
+      }
+
+      .node:hover {
+        transform: translateY(-2px);
+      }
+
+      .node-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .node-badge {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.08);
+        font-weight: 600;
+      }
+
+      .node-content {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+
+      /* Target Elements */
+      .root-node {
+        border-top: 4px solid #fff;
+        width: 340px;
+        text-align: center;
+      }
+      .root-node .node-title {
+        justify-content: center;
+      }
+
+      /* Layout Sections */
+      .columns-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        width: 100%;
+      }
+
+      .column {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      /* Branch Accents */
+      .brain-branch {
+        border-left: 4px solid var(--accent-brain);
+      }
+      .frame-branch {
+        border-left: 4px solid var(--accent-frame);
+      }
+      .visual-branch {
+        border-left: 4px solid var(--accent-visual);
+      }
+
+      .column-header {
+        padding-bottom: 0.5rem;
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 0.05em;
+      }
+
+      .arrow {
+        text-align: center;
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        margin: -0.5rem 0;
+      }
+
+      @media (max-width: 768px) {
+        .columns-container {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mindmap-container">
+      <div class="node root-node">
+        <div class="node-title">The "Patients" Page Blueprint</div>
+        <div class="node-content">
+          Think of this code like a recipe for a digital dashboard. Before
+          showing anything to the user, it gathers information and sets up the
+          layout.
+        </div>
+      </div>
+
+      <div class="columns-container">
+        <div class="column">
+          <div class="column-header" style="color: var(--accent-brain)">
+            1. THE BRAIN (Data Fetcher)
+          </div>
+
+          <div class="node brain-branch">
+            <div class="node-title">
+              getPatients()
+              <span class="node-badge" style="color: var(--accent-brain)"
+                >The Request</span
+              >
+            </div>
+            <div class="node-content">
+              This goes behind the scenes to the digital filing cabinet
+              (database) and asks for the list of all patients.
+            </div>
+          </div>
+
+          <div class="arrow">▼</div>
+
+          <div class="node brain-branch">
+            <div class="node-title">
+              patients
+              <span class="node-badge" style="color: var(--accent-brain)"
+                >The Delivery</span
+              >
+            </div>
+            <div class="node-content">
+              The raw list of names and records successfully retrieved. This
+              list is now ready to be handed over to the visual elements.
+            </div>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="column-header" style="color: var(--accent-frame)">
+            2. THE FRAMEWORK (The House)
+          </div>
+
+          <div class="node frame-branch">
+            <div class="node-title">
+              DashboardShell
+              <span class="node-badge" style="color: var(--accent-frame)"
+                >Outer Walls</span
+              >
+            </div>
+            <div class="node-content">
+              The master frame. It ensures the standard sidebar, navigation
+              menu, and top header are present on the screen.
+            </div>
+          </div>
+
+          <div class="node frame-branch">
+            <div class="node-title">
+              PageContainer
+              <span class="node-badge" style="color: var(--accent-frame)"
+                >The Room</span
+              >
+            </div>
+            <div class="node-content">
+              Creates a neat boundary box with perfect margins and padding so
+              the content doesn't look squished against the edges of the screen.
+            </div>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="column-header" style="color: var(--accent-visual)">
+            3. THE VISUALS (The Furniture)
+          </div>
+
+          <div class="node visual-branch">
+            <div class="node-title">
+              PageHeader
+              <span class="node-badge" style="color: var(--accent-visual)"
+                >The Signpost</span
+              >
+            </div>
+            <div class="node-content">
+              Displays the giant bold text saying
+              <strong>"Patients"</strong> along with a small descriptive label
+              underneath it. It also holds a clickable
+              <strong>"Add Patient"</strong> button drawer.
+            </div>
+          </div>
+
+          <div class="node visual-branch">
+            <div class="node-title">
+              PatientsTable
+              <span class="node-badge" style="color: var(--accent-visual)"
+                >The Display Case</span
+              >
+            </div>
+            <div class="node-content">
+              Takes that raw list of names delivered by "The Brain" and turns it
+              into a beautiful, neat spreadsheet layout you can actually read
+              and interact with.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

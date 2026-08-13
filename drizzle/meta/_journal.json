@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1785768471554,
+      "tag": "0000_illegal_madame_hydra",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1785770685344,
+      "tag": "0001_hot_morph",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1785831181427,
+      "tag": "0002_chat_tables",
+      "breakpoints": true
+    }
+  ]
+}

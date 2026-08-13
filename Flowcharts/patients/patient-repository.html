@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Database Filing Clerk - Simplified Map</title>
+    <style>
+      :root {
+        --bg-color: #090d16;
+        --card-bg: #111827;
+        --border-color: #1f2937;
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+
+        --accent-read: #3b82f6; /* Reading/Looking up */
+        --accent-write: #ef4444; /* Writing/Deleting */
+        --accent-folder: #10b981; /* Folders/Tables */
+        --accent-search: #f59e0b; /* Sorting/Searching */
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        padding: 2rem;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .repository-container {
+        max-width: 1100px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      .header-section {
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 1.5rem;
+      }
+
+      .header-section h1 {
+        margin: 0 0 0.5rem 0;
+        font-size: 2rem;
+        color: #fff;
+      }
+
+      .header-section p {
+        color: var(--text-muted);
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      /* File Cabinets Grid */
+      .context-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+
+      .context-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.25rem;
+      }
+
+      .context-title {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .context-desc {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        line-height: 1.4;
+      }
+
+      /* Operations Section */
+      .operations-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        border-left: 4px solid #fff;
+        padding-left: 0.75rem;
+        margin: 1rem 0 0 0;
+      }
+
+      .op-row {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .op-meta h3 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.2rem;
+        color: #fff;
+        font-family: monospace;
+      }
+
+      .op-meta p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      /* Pipeline Architecture Visual */
+      .pipeline {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .step {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px dashed var(--border-color);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        flex: 1 1 140px;
+        max-width: 220px;
+        text-align: center;
+      }
+
+      .step.active {
+        background: rgba(255, 255, 255, 0.07);
+        border-style: solid;
+      }
+
+      .arrow {
+        color: var(--text-muted);
+        font-weight: bold;
+        user-select: none;
+      }
+
+      /* Border Accents */
+      .border-read {
+        border-top: 4px solid var(--accent-read);
+      }
+      .border-write {
+        border-top: 4px solid var(--accent-write);
+      }
+      .border-folder {
+        border-top: 4px solid var(--accent-folder);
+      }
+
+      .text-read {
+        color: var(--accent-read);
+      }
+      .text-write {
+        color: var(--accent-write);
+      }
+      .text-folder {
+        color: var(--accent-folder);
+      }
+      .text-search {
+        color: var(--accent-search);
+      }
+
+      @media (max-width: 900px) {
+        .context-grid {
+          grid-template-columns: 1fr;
+        }
+        .op-row {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        .arrow {
+          transform: rotate(90deg);
+          margin: 0.25rem 0;
+        }
+        .pipeline {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .step {
+          max-width: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="repository-container">
+      <div class="header-section">
+        <h1>The Database Filing Clerk <code>(PatientRepository)</code></h1>
+        <p>
+          Think of this file as the <strong>Filing Clerk</strong> in the
+          basement. It is the only part of the app allowed to open, edit,
+          search, and shred documents inside the master database filing
+          cabinets.
+        </p>
+      </div>
+
+      <div>
+        <div class="section-title">Where the Files are Kept (The Cabinets)</div>
+        <p
+          style="
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+          "
+        >
+          To pull a complete record, the clerk dynamically staples papers
+          together from three separate drawers:
+        </p>
+
+        <div class="context-grid">
+          <div class="context-card border-folder">
+            <div class="context-title text-folder">Cabinet 1: Patients</div>
+            <div class="context-desc">
+              Holds core information like patient names, phone numbers, medical
+              notes, bills, and the ID card number of their assigned doctor.
+            </div>
+          </div>
+          <div class="context-card border-read">
+            <div class="context-title text-read">Cabinet 2: Doctors</div>
+            <div class="context-desc">
+              A helper drawer containing specific professional medical logs,
+              referenced when checking which doctor belongs to which patient.
+            </div>
+          </div>
+          <div class="context-card border-read">
+            <div class="context-title text-read">
+              Cabinet 3: Users (Auth Names)
+            </div>
+            <div class="context-desc">
+              The master company directory drawer. The clerk checks this just to
+              grab the doctor's actual real-world display name.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="operations-section">
+        <div class="section-title">The Clerk's Daily Tasks</div>
+
+        <div class="op-row">
+          <div class="op-meta">
+            <h3>patientQuery (Internal Template)</h3>
+            <p>The clerk's shortcut strategy for assembling a file.</p>
+          </div>
+          <div class="pipeline">
+            <div
+              class="step active text-read"
+              style="border-color: var(--accent-read)"
+            >
+              Grab Empty Template
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-folder"
+              style="border-color: var(--accent-folder)"
+            >
+              Pull Patient Info
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-read"
+              style="border-color: var(--accent-read)"
+            >
+              Staple Doctor's Name to it
+            </div>
+            <div class="arrow">➔</div>
+            <div class="step">Ready to Output</div>
+          </div>
+        </div>
+
+        <div class="op-row">
+          <div class="op-meta">
+            <h3>createPatient</h3>
+            <p>Saves a brand new document into the cabinet.</p>
+          </div>
+          <div class="pipeline">
+            <div
+              class="step active text-write"
+              style="border-color: var(--accent-write)"
+            >
+              Open Patient Drawer
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-folder"
+              style="border-color: var(--accent-folder)"
+            >
+              Drop New Form In
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-write"
+              style="border-color: var(--accent-write)"
+            >
+              Stamp "Saved Successfully"
+            </div>
+            <div class="arrow">➔</div>
+            <div class="step">Hand Back the Fresh Copy</div>
+          </div>
+        </div>
+
+        <div class="op-row">
+          <div class="op-meta">
+            <h3>searchPatients</h3>
+            <p>Sifts through thousands of records using filters.</p>
+          </div>
+          <div class="pipeline">
+            <div
+              class="step active text-search"
+              style="border-color: var(--accent-search)"
+            >
+              Check Search Keywords
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-search"
+              style="border-color: var(--accent-search)"
+            >
+              Match Names/Phones/Status
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-read"
+              style="border-color: var(--accent-read)"
+            >
+              Run Assembled Query
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-search"
+              style="border-color: var(--accent-search)"
+            >
+              Sort by Newest First
+            </div>
+          </div>
+        </div>
+
+        <div class="op-row">
+          <div class="op-meta">
+            <h3>updatePatientBalance</h3>
+            <p>Changes a single bill amount on a file.</p>
+          </div>
+          <div class="pipeline">
+            <div
+              class="step active text-write"
+              style="border-color: var(--accent-write)"
+            >
+              Locate File by ID
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-search"
+              style="border-color: var(--accent-search)"
+            >
+              Erase Old Balance & Write New
+            </div>
+            <div class="arrow">➔</div>
+            <div
+              class="step active text-folder"
+              style="border-color: var(--accent-folder)"
+            >
+              Update "Last Edited" Time
+            </div>
+            <div class="arrow">➔</div>
+            <div class="step">Slide Back Into Drawer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
