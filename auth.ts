@@ -5,9 +5,11 @@ import Google from "next-auth/providers/google";
 
 import { userRepository } from "@/repositories/user.repository";
 
+const demoLoginEnabled = process.env.DEMO_LOGIN_ENABLED === "true";
+
 const providers: Provider[] = [Google];
 
-if (process.env.NODE_ENV === "development") {
+if (demoLoginEnabled) {
   providers.push(
     Credentials({
       id: "demo-login",
@@ -15,8 +17,9 @@ if (process.env.NODE_ENV === "development") {
       credentials: {
         email: { label: "Email", type: "text" },
       },
+
       async authorize(credentials) {
-        if (process.env.NODE_ENV !== "development") {
+        if (!demoLoginEnabled) {
           return null;
         }
 

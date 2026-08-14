@@ -8,10 +8,15 @@ export const metadata = {
   title: "Sign in · Clinic Dashboard",
 };
 
-// Seeded demo users (see db/seed.ts). Display labels only — the session's
-// id/role are always resolved from the database by the Auth.js callbacks.
+// Seeded demo users (see db/seed.ts).
+// Display labels only — the session's id/role are always resolved
+// from the database by the Auth.js callbacks.
 const DEMO_USERS = [
-  { label: "Admin", email: "admin@sunriseclinic.in", role: "admin" },
+  {
+    label: "Admin",
+    email: "admin@sunriseclinic.in",
+    role: "admin",
+  },
   {
     label: "Receptionist",
     email: "reception1@sunriseclinic.in",
@@ -22,8 +27,16 @@ const DEMO_USERS = [
     email: "reception2@sunriseclinic.in",
     role: "receptionist",
   },
-  { label: "Dr. Amit Roy", email: "dr.amit.roy@sunriseclinic.in", role: "doctor" },
-  { label: "Dr. Priya Sen", email: "dr.priya.sen@sunriseclinic.in", role: "doctor" },
+  {
+    label: "Dr. Amit Roy",
+    email: "dr.amit.roy@sunriseclinic.in",
+    role: "doctor",
+  },
+  {
+    label: "Dr. Priya Sen",
+    email: "dr.priya.sen@sunriseclinic.in",
+    role: "doctor",
+  },
   {
     label: "Dr. Rajesh Verma",
     email: "dr.rajesh.verma@sunriseclinic.in",
@@ -43,6 +56,8 @@ export default async function LoginPage() {
   if (session?.user?.id) {
     redirect("/dashboard");
   }
+
+  const demoLoginEnabled = process.env.DEMO_LOGIN_ENABLED === "true";
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-6">
@@ -64,14 +79,10 @@ export default async function LoginPage() {
             type="submit"
             className="flex w-full items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
           >
-            <svg
-              className="h-5 w-5"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+            <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 fill="#4285F4"
-                d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"
+                d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58l3.86 3c2.26-2.09 3.56-5.17 3.56-8.82z"
               />
               <path
                 fill="#34A853"
@@ -94,15 +105,15 @@ export default async function LoginPage() {
           Access is restricted to authorized clinic staff.
         </p>
 
-        {/* Development-only demo login — never rendered in production builds. */}
-        {process.env.NODE_ENV === "development" && (
+        {demoLoginEnabled && (
           <div className="mt-6 border-t border-dashed border-gray-200 pt-6 text-left">
             <p className="text-xs font-semibold uppercase tracking-wide text-amber-600">
-              Demo Login · development only
+              Demo Login
             </p>
 
             <p className="mt-1 text-xs text-gray-400">
-              Sign in as a seeded user to test roles and RBAC.
+              Sign in as a seeded user to explore different roles and
+              permissions.
             </p>
 
             <div className="mt-4 grid grid-cols-2 gap-2">
