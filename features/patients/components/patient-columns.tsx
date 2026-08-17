@@ -67,7 +67,7 @@ export const patientColumns: ColumnDef<Patient>[] = [
       { row }, // Show doctor name and department
     ) => (
       <div className="space-y-1">
-        <p className="font-medium">Dr. {row.original.assignedDoctor}</p>
+        <p className="font-medium">{row.original.assignedDoctor}</p>
         <p className="text-xs text-gray-500">Cardiology</p>{" "}
         {/* Hardcoded example */}
       </div>
