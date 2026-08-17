@@ -77,30 +77,19 @@ export function OverviewTab({
 
         {/* CLINICAL NOTES */}
 
-        <Card className="p-5">
-          <div className="mb-5">
-            <h2 className="section-title">Clinical Notes</h2>
+        {patient.notes && (
+          <Card className="p-5">
+            <div className="mb-5">
+              <h2 className="section-title">Clinical Notes</h2>
 
-            <p className="helper-text">Latest doctor and staff notes</p>
-          </div>
+              <p className="helper-text">Latest doctor and staff notes</p>
+            </div>
 
-          <div
-            className="
-              rounded-2xl border
-              border-amber-100
-              bg-amber-50 p-4
-            "
-          >
-            <p
-              className="
-                text-sm leading-7
-                text-gray-700
-              "
-            >
-              {patient.notes}
-            </p>
-          </div>
-        </Card>
+            <div className="rounded-2xl border border-amber-100 bg-amber-50 p-4">
+              <p className="text-sm leading-7 text-gray-700">{patient.notes}</p>
+            </div>
+          </Card>
+        )}
 
         {/* TIMELINE */}
 
@@ -120,15 +109,14 @@ export function OverviewTab({
           </div>
 
           <div className="space-y-5">
+            
             {/* ASSIGNED DOCTOR */}
 
             <div>
               <p className="helper-text">Assigned Doctor</p>
 
               <p className="mt-1 font-medium">
-                {patient.assignedDoctor
-                  ? `Dr. ${patient.assignedDoctor}`
-                  : "Not assigned"}
+                {patient.assignedDoctor || "Not assigned"}
               </p>
             </div>
 
