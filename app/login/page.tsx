@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { DemoLoginButton } from "@/components/auth/demo-login-button";
 
 import { auth } from "@/auth";
 import { signInWithGoogle } from "@/actions/auth/sign-in";
@@ -122,18 +123,10 @@ export default async function LoginPage() {
                   key={demoUser.email}
                   action={demoLogin.bind(null, demoUser.email)}
                 >
-                  <button
-                    type="submit"
-                    className="flex w-full flex-col items-start rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 transition-colors hover:border-blue-300 hover:bg-blue-50"
-                  >
-                    <span className="text-sm font-medium text-gray-800">
-                      {demoUser.label}
-                    </span>
-
-                    <span className="text-xs capitalize text-gray-400">
-                      {demoUser.role}
-                    </span>
-                  </button>
+                  <DemoLoginButton
+                    label={demoUser.label}
+                    role={demoUser.role}
+                  />
                 </form>
               ))}
             </div>
