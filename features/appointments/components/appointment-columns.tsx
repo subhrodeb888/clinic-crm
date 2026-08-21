@@ -32,22 +32,24 @@ export function getAppointmentColumns(
 
       // Custom cell renderer
       cell: ({ row }) => {
-        // Get patient data
-
+        // Get patient data (may be null for orphaned appointments)
         const patient = row.original.patient;
+
+        // Fall back gracefully so a single malformed record can't crash the page
+        const fullName = patient
+          ? `${patient.firstName} ${patient.lastName}`.trim()
+          : "Unknown patient";
 
         // Render patient info
         return (
           <div>
             {/* Patient full name */}
+            <p className="font-medium text-gray-900">{fullName}</p>
 
-            <p className="font-medium text-gray-900">
-              {patient.firstName} {patient.lastName}
-            </p>
-
-            {/* Patient phone */}
-
-            <p className="text-xs text-gray-500">{patient.phone}</p>
+            {/* Patient phone (hidden when unknown) */}
+            {patient?.phone && (
+              <p className="text-xs text-gray-500">{patient.phone}</p>
+            )}
           </div>
         );
       },
@@ -56,15 +58,14 @@ export function getAppointmentColumns(
 
       filterFn: (row, _, value) => {
         // Get patient data
-
         const patient = row.original.patient;
 
-        // Build full name
-
-        const fullName = `${patient.firstName} ${patient.lastName}`;
+        // Build full name (fall back so filtering never crashes)
+        const fullName = patient
+          ? `${patient.firstName} ${patient.lastName}`
+          : "Unknown patient";
 
         // Case-insensitive match
-
         return fullName.toLowerCase().includes(String(value).toLowerCase());
       },
     },
@@ -78,21 +79,23 @@ export function getAppointmentColumns(
 
       // Custom cell renderer
       cell: ({ row }) => {
-        // Get doctor data
+        // Get doctor data (may be null for orphaned appointments)
         const doctor = row.original.doctor;
+
+        const fullName = doctor
+          ? `Dr. ${doctor.firstName} ${doctor.lastName}`.trim()
+          : "Unknown doctor";
 
         // Render doctor info
         return (
           <div>
             {/* Doctor name */}
+            <p className="font-medium text-gray-900">{fullName}</p>
 
-            <p className="font-medium text-gray-900">
-              Dr. {doctor.firstName} {doctor.lastName}
-            </p>
-
-            {/* Doctor specialization */}
-
-            <p className="text-xs text-gray-500">{doctor.specialization}</p>
+            {/* Doctor specialization (hidden when unknown) */}
+            {doctor?.specialization && (
+              <p className="text-xs text-gray-500">{doctor.specialization}</p>
+            )}
           </div>
         );
       },
@@ -102,8 +105,10 @@ export function getAppointmentColumns(
         // Get doctor data
         const doctor = row.original.doctor;
 
-        // Build full name
-        const fullName = `${doctor.firstName} ${doctor.lastName}`;
+        // Build full name (fall back so filtering never crashes)
+        const fullName = doctor
+          ? `Dr. ${doctor.firstName} ${doctor.lastName}`
+          : "Unknown doctor";
 
         // Case-insensitive match
         return fullName.toLowerCase().includes(String(value).toLowerCase());

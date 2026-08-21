@@ -82,7 +82,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
       <div className="shrink-0 border-t border-gray-200 bg-white p-4">
         <button
           type="button"
-          onClick={() => signOut({ callbackUrl: "/login" })}
+          onClick={() => signOut({ callbackUrl: "/" })}
           className="
             flex w-full items-center gap-3
             rounded-xl px-3 py-2.5

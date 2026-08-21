@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Clinic Dashboard",
-  description: "Internal Clinic Operations Dashboard",
+  title: "Clinic CRM",
+  description: "Internal clinic operations dashboard",
 };
 
 export default function RootLayout({

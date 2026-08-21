@@ -70,7 +70,12 @@ export function DataTable<TData>({
           border border-gray-200 bg-white
         "
       >
-        <table className="w-full border-collapse">
+        {/* Horizontal scroll on small screens: the table keeps its natural
+            min width while this parent provides the scrollbar, so columns
+            never cramp or clip. Headers and cells share the same table
+            container and remain aligned. */}
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[800px] border-collapse">
           {/* TABLE HEADER */}
 
           <thead className="bg-gray-50">
@@ -139,7 +144,8 @@ export function DataTable<TData>({
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
 
         {/* PAGINATION */}
 

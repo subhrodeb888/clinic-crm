@@ -27,7 +27,13 @@ export default auth((req) => {
 
   const origin = `${protocol}://${host}`;
 
-  // The only public page route: authenticated users are sent to the
+  // Public marketing landing page at the site root — open to everyone,
+  // including authenticated users who want to browse before signing in.
+  if (pathname === "/") {
+    return NextResponse.next();
+  }
+
+  // The only other public page route: authenticated users are sent to the
   // dashboard, everyone else can stay and sign in.
   if (pathname === LOGIN_PATH) {
     if (isAuthenticated) {
